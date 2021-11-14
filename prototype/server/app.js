@@ -42,9 +42,8 @@ router.get('/',(req,res,next) => {
   ]))
 })
 
-// GET ACCESS TOKEN (go to http://localhost:5000/callback whenever access token expired)
+// GET ACCESS TOKEN (go to http://localhost:5000/ whenever access token expired)
 // router.get('/callback',(req,res,next) => {
-//   res.send(JSON.stringify(req.query))
 //   spotifyApi.authorizationCodeGrant(req.query.code).then((response) => {
 //     res.send(JSON.stringify(response))
 //     spotifyApi.setAccessToken(token)
