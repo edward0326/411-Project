@@ -23,9 +23,9 @@ function SearchConcert() {
                 renderInput={(params) => <TextField {...params} />}
             />
         </Grid>
-        <h2 align="center">Playlists</h2>
+        <h2 align="center">Tracks</h2>
         {artistName != "" ?
-            <Grid><Playlists artistName={artistName} /></Grid>
+            <Grid ><Playlists artistName={artistName} /></Grid>
             : <Grid></Grid>
         }
     </div>
