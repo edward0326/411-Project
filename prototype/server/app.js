@@ -63,45 +63,12 @@ const getMe = () => {
 }
 // getMe()
 
-// Search artists whose name contains 'Love'
-const searchArtists = async (artist) => {
-  const artists = await spotifyApi.searchArtists(artist)
-  console.log('artist', artists)
-  console.log('bilgiler', artists.body.artists.items[0])
-}
-// searchArtists('Love')
-
-// Get albums by a certain artist
-const getArtistAlbums = (artistID) => {
-  spotifyApi.getArtistAlbums(artistID)
-    .then(function(data) {
-      console.log('Artist albums', data.body);
-    }, function(err) {
-      console.error(err);
-    });
-}
-// getArtistAlbums('43ZHCT0cAZBISjO8DG9PnE')
-
-// Search tracks whose name, album or artist contains 'Love'
-const searchTracks = (search) => {
-  spotifyApi.searchTracks(search)
-    .then(function(data) {
-      console.log('Search by ' + search, data.body);
-    }, function(err) {
-      console.error(err);
-    });
-}
-// searchTracks('Love')
-
-
-
 // Search tracks whose name, album or artist contains artistName
 app.get("/api/playlists/:value", async (req, res) => {
   const {value} = req.params;  
   const playlists = await spotifyApi.searchTracks(value)
   res.json(playlists)
 })
-
 
 
 app.use('/',router)
