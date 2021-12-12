@@ -3,54 +3,54 @@ const express = require('express');
 const app = express()
 const router = express.Router()
 var SpotifyWebApi = require('spotify-web-api-node');
+let request = require('request')
+let querystring = require('querystring')
 
 // get credentials
 require("dotenv").config()
-let clientId = process.env.CLIENTID
-let clientSecret = process.env.CLIENTSECRET
-let redirectUri = process.env.REDIRECTURI
-let port = process.env.PORT
-let token = process.env.TOKEN
+let clientId = process.env.CLIENTID || "aacacdaa0c47455eb07969227af44907"
+let clientSecret = process.env.CLIENTSECRET || "86093d6759994e2d92bd367e8850e724"
+let redirectUri = process.env.REDIRECTURI || 'http://localhost:5000/callback'
+let port = process.env.PORT || 5000
 var spotifyApi = new SpotifyWebApi({
   clientId: clientId,
   clientSecret: clientSecret,
   redirectUri: redirectUri
 });
 
-router.get('/',(req,res,next) => {
-  res.redirect(spotifyApi.createAuthorizeURL([
-    "ugc-image-upload",
-    "user-read-recently-played",
-    "user-read-playback-state",
-    "user-top-read",
-    "app-remote-control",
-    "playlist-modify-public",
-    "user-modify-playback-state",
-    "playlist-modify-private",
-    "user-follow-modify",
-    "user-read-currently-playing",
-    "user-read-currently-playing",
-    "user-follow-read",
-    "user-library-modify",
-    "user-read-playback-position",
-    "playlist-read-private",
-    "user-read-email",
-    "user-read-private",
-    "user-library-read",
-    "playlist-read-collaborative",
-    "streaming"
-  ]))
+
+router.get('/', function(req, res) {
+  res.redirect('https://accounts.spotify.com/authorize?' +
+    querystring.stringify({
+      response_type: 'code',
+      client_id: clientId,
+      scope: 'user-read-private user-read-email',
+      redirect_uri: redirectUri
+    }))
 })
 
-// GET ACCESS TOKEN (go to http://localhost:5000/ whenever access token expired)
-// router.get('/callback',(req,res,next) => {
-//   spotifyApi.authorizationCodeGrant(req.query.code).then((response) => {
-//     res.send(JSON.stringify(response))
-//     spotifyApi.setAccessToken(token)
-//   }).catch(console.log("failed"))
-// })
-
-spotifyApi.setAccessToken(token)
+router.get('/callback',(req,res) => {
+  let code = req.query.code
+  let authOptions = {
+    url: 'https://accounts.spotify.com/api/token',
+    form: {
+      code: code,
+      redirect_uri: redirectUri,
+      grant_type: 'authorization_code'
+    },
+    headers: {
+      'Authorization': 'Basic ' + (new Buffer.from(
+        clientId + ':' + clientSecret
+      ).toString('base64'))
+    },
+    json: true
+  }
+  request.post(authOptions, function(error, response, body) {
+    var access_token = body.access_token
+    let uri = 'http://localhost:3000'
+    res.redirect(uri + '?access_token=' + access_token)
+  })
+})
 
 // Get the authenticated user
 const getMe = () => {
