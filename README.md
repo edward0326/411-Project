@@ -1,6 +1,6 @@
 # 411-Project
 
-An application that can create a playlist of the setlist of the concert (headliner and opener) you are planning to attend, so that you can get into the mood of the artists 💖 The Spotify and SoundCloud APIs will be used to search for your favorite albums of the artist! 🎵
+An application that can create a playlist of the setlist of the concert (headliner and opener) you are planning to attend, so that you can get into the mood of the artists 💖 The Spotify and iTunes Search APIs will be used to search for your favorite albums of the artist! 🎵
 
 ## Getting Started
 
