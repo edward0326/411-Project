@@ -13,7 +13,7 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import LoginIcon from '@mui/icons-material/Login';
 import LogoutIcon from '@mui/icons-material/Logout';
 import SearchConcert from "./SearchConcert";
-import Profile from "./Profile";
+import { Profile } from "./Profile";
 import Login from "./Login";
 import Landing from "./Landing";
 
